@@ -36,15 +36,11 @@ It supports headings, bold/italic text, links, and unordered lists, with a simpl
 
    ```bash
    php -v
-````
+
 
 If not, make sure PHP is installed and its path is added to your system environment variables.
 
-2. [Download the MD2HTML ZIP](#)
-
-3. Extract it to a directory of your choice.
-
-4. The folder should contain:
+2. The folder should contain:
 
    ```
    converter.php
@@ -61,7 +57,7 @@ If not, make sure PHP is installed and its path is added to your system environm
 In your terminal, run:
 
 ```bash
-cd "C:\Users\Kimat\Downloads\markdown-converter"
+cd "C:\Users\Downloads\markdown-converter"
 ```
 
 ### B. Run the Converter
@@ -78,46 +74,6 @@ php converter.php sample.md
 
 ---
 
-## Example Markdown Input (`sample.md`)
-
-```markdown
-# Kimathi Sedegah
-
-Welcome to my **personal homepage**. This Markdown file was converted to HTML using MD2HTML.
-
-## About Me
-
-- Trumpeter, saxophonist, and French hornist
-- Computer Science student at the University of Ghana (2024–2027)
-- Developer of Code Comparator, ResumeCraft, and more
-
-## Contact
-
-- GitHub: [sedegah](https://github.com/sedegah)
-- Portfolio: [kimathisedegah.vercel.app](https://kimathisedegah.vercel.app)
-```
-
----
-
-## Troubleshooting
-
-###  `php is not recognized`
-
-> PHP is not in your system PATH.
-
- Use the full path to `php.exe` or add PHP to your environment variables.
-
-###  `Could not open input file: converter.php`
-
-> You're in the wrong folder.
-
- Navigate to the correct directory first:
-
-```bash
-cd "C:\Users\Kimat\Downloads\markdown-converter"
-```
-
----
 
 ## License
 
