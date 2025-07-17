@@ -13,6 +13,7 @@ if (!file_exists($inputFile)) {
     exit(1);
 }
 
+
 $markdown = file_get_contents($inputFile);
 
 // Convert headings
