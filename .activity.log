@@ -66,3 +66,4 @@
 // Fix image rendering bug 1755958505
 // Improve table formatting 1755958505
 // Refactor link conversion logic 1755958505
+// Add live preview refresh 1755958505
