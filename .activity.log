@@ -126,3 +126,4 @@
 // Fix list rendering issues 1756649674
 // Refactor markdown parser 1756649674
 // Refactor link conversion logic 1756649674
+// Improve table formatting 1756687347
