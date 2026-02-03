@@ -16,44 +16,49 @@ if (!file_exists($inputFile)) {
 
 $markdown = file_get_contents($inputFile);
 
-// Convert headings
-$markdown = preg_replace('/###### (.*)/', '<h6>$1</h6>', $markdown);
-$markdown = preg_replace('/##### (.*)/', '<h5>$1</h5>', $markdown);
-$markdown = preg_replace('/#### (.*)/', '<h4>$1</h4>', $markdown);
-$markdown = preg_replace('/### (.*)/', '<h3>$1</h3>', $markdown);
-$markdown = preg_replace('/## (.*)/', '<h2>$1</h2>', $markdown);
-$markdown = preg_replace('/# (.*)/', '<h1>$1</h1>', $markdown);
+$patterns = [
+    '/###### (.*)/' => '<h6>$1</h6>',
+    '/##### (.*)/' => '<h5>$1</h5>',
+    '/#### (.*)/' => '<h4>$1</h4>',
+    '/### (.*)/' => '<h3>$1</h3>',
+    '/## (.*)/' => '<h2>$1</h2>',
+    '/# (.*)/' => '<h1>$1</h1>',
+    '/\*\*(.*?)\*\*/' => '<strong>$1</strong>',
+    '/\*(.*?)\*/' => '<em>$1</em>',
+    '/\[(.*?)\]\((.*?)\)/' => '<a href="$2">$1</a>'
+];
 
-// Convert bold and italic
-$markdown = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong>', $markdown);
-$markdown = preg_replace('/\*(.*?)\*/', '<em>$1</em>', $markdown);
+$markdown = preg_replace(array_keys($patterns), array_values($patterns), $markdown);
 
-// Convert links
-$markdown = preg_replace('/\[(.*?)\]\((.*?)\)/', '<a href="$2">$1</a>', $markdown);
-
-// Convert unordered lists
 $lines = explode("\n", $markdown);
-$html = "";
+$output = [];
 $inList = false;
 
 foreach ($lines as $line) {
-    if (preg_match('/^\s*-\s+(.*)/', $line, $matches)) {
+    $trimmed = trim($line);
+    
+    if (preg_match('/^-\s+(.*)/', $trimmed, $matches)) {
         if (!$inList) {
-            $html .= "<ul>\n";
+            $output[] = '<ul>';
             $inList = true;
         }
-        $html .= "<li>{$matches[1]}</li>\n";
+        $output[] = '<li>' . $matches[1] . '</li>';
     } else {
         if ($inList) {
-            $html .= "</ul>\n";
+            $output[] = '</ul>';
             $inList = false;
         }
-        $html .= "<p>" . $line . "</p>\n";
+        if ($trimmed !== '') {
+            $output[] = '<p>' . $line . '</p>';
+        }
     }
 }
+
 if ($inList) {
-    $html .= "</ul>\n";
+    $output[] = '</ul>';
 }
+
+$html = implode("\n", $output);
 
 $htmlTemplate = <<<HTML
 <!DOCTYPE html>
@@ -76,9 +81,7 @@ HTML;
 
 file_put_contents($outputFile, $htmlTemplate);
 
-echo "✅ Converted '$inputFile' to '$outputFile'.\n";
-
-// Try to open in browser (cross-platform)
+echo "Converted '$inputFile' to '$outputFile'.\n";
 if (PHP_OS_FAMILY === 'Windows') {
     shell_exec("start $outputFile");
 } elseif (PHP_OS_FAMILY === 'Darwin') {
